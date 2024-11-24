@@ -1,0 +1,17 @@
+.recipe-list {
+    margin: 0 auto;
+    padding: 20px;
+    background-color: black;
+  }
+  
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.recipe-list h1 {
+    text-align: center;
+    color: #fff;
+}
+  
