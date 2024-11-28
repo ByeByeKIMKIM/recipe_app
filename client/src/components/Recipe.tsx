@@ -2,6 +2,7 @@ import React from 'react';
 import '../styles/Recipe.css'
 import axios from 'axios';
 import {useAuth} from '../auth/AuthUserProvider.tsx';
+import { useNavigate } from 'react-router-dom';
 
 interface RecipeProps {
   id: string;
@@ -16,23 +17,25 @@ const Recipe: React.FC<RecipeProps> = ({id, title, ingredients, instructions, us
   const {user} = useAuth();
   const uniqueUserId = user?.uid;
 
-  const handleRemake = async() => {
-    const recipeTitle = title;
-    const recipeIngredients = ingredients;
+  const navigate = useNavigate();
 
-    const content = "The dish I'm trying to make is " + recipeTitle + " and these are the ingredients: " + recipeIngredients;
+  // const handleRemake = async() => {
+  //   const recipeTitle = title;
+  //   const recipeIngredients = ingredients;
 
-    try {
-       const response = await axios.post('http://localhost:8080/gpt', {
-        content: content,
-      });
-      console.log(response.data);
-      alert(response.data.content);
+  //   const content = "The dish I'm trying to make is " + recipeTitle + " and these are the ingredients: " + recipeIngredients;
 
-    } catch (error) {
-      console.error('Error remaking recipe:', error);
-    }
-  }
+  //   try {
+  //      const response = await axios.post('http://localhost:8080/gpt', {
+  //       content: content,
+  //     });
+  //     console.log(response.data);
+  //     alert(response.data.content);
+
+  //   } catch (error) {
+  //     console.error('Error remaking recipe:', error);
+  //   }
+  // }
 
   const handleDelete = async () => {
     if(uniqueUserId != userId) {
@@ -77,6 +80,10 @@ const Recipe: React.FC<RecipeProps> = ({id, title, ingredients, instructions, us
     }
   }
   
+  const handleRemake = async() => {
+    navigate('/recipe-details', { state: { recipeTitle: title, recipeIngredients: ingredients, recipeInstructions: instructions } });  
+  }
+
 
 
   return (
