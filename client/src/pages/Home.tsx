@@ -5,10 +5,6 @@ import {signInWithGoogle, signOutFirebase} from '../utils/firebase'
 import { useAuth } from '../auth/AuthUserProvider.tsx';
 import { useNavigate } from 'react-router-dom';
 
-// import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
-// import {login} from '/Users/kimkim/trends-in-webdev/final-project/frontend/src/auth/auth_google_provider'
-// import {signInWithGoogle} from '../utils/firebase.ts'
-
 function HomePage() {
   const navigate = useNavigate()
   const [recipes, setRecipes] = useState([]);
@@ -27,37 +23,13 @@ function HomePage() {
     fetchRecipes();
   }, []);
 
-  const addRecipe = async () => {
+  const addReroute = async() => {
     if(!user) {
       alert("Please sign in")
-      return;
+      return
     }
-
-    const recipeName = prompt('Enter the name of the recipe');
-    const ingredients = prompt('Enter the ingredients for the recipe');
-    const instructions = prompt('Enter the instructions for the recipe');
-    const userId = user.uid;
-
-    if (recipeName && ingredients && instructions) {
-      try {
-        await axios.post('http://localhost:8080/addRecipe', {
-          title: recipeName,
-          ingredients: ingredients,
-          instructions: instructions,
-          userId: userId
-        });
-        fetchRecipes(); // Re-fetch recipes after adding a new one
-      } catch (error) {
-        console.error('Error adding recipe:', error);
-      }
-    }
-  };
-
-  const addReroute = async() => {
     navigate('/add-recipe-page');  
   }
-
-  
 
   return (
     <div className="App">

@@ -5,9 +5,6 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import withFirebaseAuth from 'react-with-firebase-auth';
 import { signInWithPopup, signOut } from "firebase/auth";
 
-console.log(import.meta.env);
-console.log("hello")
-
 const firebaseConfig = {
   apiKey:  import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -36,7 +33,13 @@ const signInWithGoogle = () => {
 };
 
 const signOutFirebase = () => {
-  signOut(auth);
+  signOut(auth).then(() => {
+    // Sign-out successful.
+    console.log("User signed out successfully");
+  }).catch((error) => {
+    // An error happened.
+    console.error("Error signing out:", error);
+  });
 };
 
 
