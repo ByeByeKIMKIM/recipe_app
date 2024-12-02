@@ -81,7 +81,7 @@ app.get('/getRecipes', async (req, res) => {
   app.put('/changeRecipe/:id', async(req, res) => {
     const id = req.params.id
 
-    const {newTitle, newIngredients, newInstructions} = req.body;
+    const {newTitle, newIngredients, newInstructions, userId} = req.body;
     try {
       const recipesCollectionRef = db.collection('recipes');
       const docRef = recipesCollectionRef.doc(id)
@@ -91,6 +91,7 @@ app.get('/getRecipes', async (req, res) => {
         title: newTitle,
         ingredients: newIngredients,
         instructions: newInstructions,
+        userId: userId
       });;
       //use .set() to change one of the documents based on id
   

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../auth/AuthUserProvider.tsx';
 import { useNavigate } from 'react-router-dom';
+import '../styles/AddRecipePage.css'
 
 const AddRecipePage: React.FC = () => {
     const navigate = useNavigate()

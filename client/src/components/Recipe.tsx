@@ -73,6 +73,7 @@ const Recipe: React.FC<RecipeProps> = ({id, title, ingredients, instructions, us
         newTitle: newTitle,
         newIngredients: newIngredients,
         newInstructions: newInstructions,
+        userId: userId
       });
       console.log('edited the doc')
     } catch (error) {
