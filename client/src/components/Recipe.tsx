@@ -3,6 +3,9 @@ import '../styles/Recipe.css'
 import axios from 'axios';
 import {useAuth} from '../auth/AuthUserProvider.tsx';
 import { useNavigate } from 'react-router-dom';
+import {getDocs, query, where, collection, getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion} from 'firebase/firestore'
+import {app} from '../utils/firebase.ts'
+
 
 interface RecipeProps {
   id: string;
@@ -14,28 +17,12 @@ interface RecipeProps {
 
 const Recipe: React.FC<RecipeProps> = ({id, title, ingredients, instructions, userId}) => {
 
+  const db = getFirestore(app);
+
   const {user} = useAuth();
   const uniqueUserId = user?.uid;
 
   const navigate = useNavigate();
-
-  // const handleRemake = async() => {
-  //   const recipeTitle = title;
-  //   const recipeIngredients = ingredients;
-
-  //   const content = "The dish I'm trying to make is " + recipeTitle + " and these are the ingredients: " + recipeIngredients;
-
-  //   try {
-  //      const response = await axios.post('http://localhost:8080/gpt', {
-  //       content: content,
-  //     });
-  //     console.log(response.data);
-  //     alert(response.data.content);
-
-  //   } catch (error) {
-  //     console.error('Error remaking recipe:', error);
-  //   }
-  // }
 
   const handleDelete = async () => {
     if(uniqueUserId != userId) {
@@ -85,7 +72,37 @@ const Recipe: React.FC<RecipeProps> = ({id, title, ingredients, instructions, us
     navigate('/recipe-details', { state: { recipeTitle: title, recipeIngredients: ingredients, recipeInstructions: instructions } });  
   }
 
+  const handleSave = async() => {
+    if(!user) {
+      alert("Please sign in to save");
+    } else {
+      // const db = getFirestore(app);
+      const userDocRef = doc(db, "users", user.uid);
 
+      try {
+        // Check if the user document exists
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          // User document exists, update the recipes array
+          await updateDoc(userDocRef, {
+            recipes: arrayUnion(id)
+          });
+        } else {
+          // User document doesn't exist, create it with the recipes array
+          await setDoc(userDocRef, {
+            recipes: [id]
+          });
+        }
+
+        console.log("Recipe saved successfully!");
+      } catch (error) {
+        console.error("Error saving recipe:", error);
+        alert("An error occurred while saving the recipe. Please try again.");
+      }
+    }
+  }
+  
 
   return (
     <div className="recipe">
@@ -95,6 +112,7 @@ const Recipe: React.FC<RecipeProps> = ({id, title, ingredients, instructions, us
       <button onClick={handleRemake} className="gradient-button">Remake</button>
       <button onClick={handleDelete}>X</button>
       <button onClick={handleEdit}>edit</button>
+      <button onClick={handleSave}>save</button>
     </div>
   );
 };

@@ -7,6 +7,12 @@ import { db } from './firebase';
 import axios from 'axios';
 import { GPT_KEY } from "./keys";
 
+
+import 'firebase/firestore';
+
+
+
+
 const app: Express = express();
 const port = 8080;
 
@@ -35,6 +41,71 @@ app.get('/getRecipes', async (req, res) => {
       res.status(500).json({ error: 'Error fetching documents' });
     }
   })
+
+  app.get('/getSavedRecipeIds', async (req, res) => {
+    const userUid = req.query.uid;
+    const usersCollectionRef = db.collection('users');
+
+    try {
+      const querySnapshot = await usersCollectionRef.where("uid", "==", userUid).get();
+      
+      if (querySnapshot.empty) {
+        res.status(404).send("No user found with the given UID");
+        return;
+      }
+  
+      const userDoc = querySnapshot.docs[0];
+      const userData = userDoc.data();
+
+      const recipeIds = userData.recipes || [];
+
+      const recipesCollectionRef = db.collection('recipes');
+      const recipeSnapshot = await Promise.all(
+        recipeIds.map((id: string) => recipesCollectionRef.doc(id).get())
+      );
+      const recipes = recipeSnapshot
+        .filter(doc => doc.exists)
+        .map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+      res.status(200).json(recipes);
+      //const snapShot = await recipesCollectionRef.where()
+      //const recipeSnapshot = await recipesCollectionRef.where(firebase.firestore.FieldPath.documentId(), 'in', recipeIds).get();
+
+      // const recipes = recipeSnapshot.docs.map(doc => ({
+      //     id: doc.id,
+      //     ...doc.data()
+      // }));
+    } catch (error) {
+      console.error("Error fetching user document:", error);
+      res.status(500).send("An error occurred while fetching the user document");
+    }
+  })
+
+  // app.get('/getSavedRecipes', async (req, res) => {
+  //   try {
+  //     const recipesCollectionRef = db.collection('recipes');
+  //     const snapshot = await recipesCollectionRef.get();
+  
+  //     if (snapshot.empty) {
+  //       res.status(404).json({ message: 'No recipes found' });
+  //       return;
+  //     }
+  
+  //     const recipes = snapshot.docs.map(doc => ({
+  //       id: doc.id,
+  //       ...doc.data()
+  //     }));
+  
+  //     res.json(recipes);
+  
+  //   } catch (err) {
+  //     console.error("Error fetching documents:", err);
+  //     res.status(500).json({ error: 'Error fetching documents' });
+  //   }
+  // })
   
   app.post('/addRecipe', async (req, res) => {
     const { title, ingredients, instructions, userId } = req.body;

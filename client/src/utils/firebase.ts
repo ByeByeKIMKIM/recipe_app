@@ -4,6 +4,9 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import withFirebaseAuth from 'react-with-firebase-auth';
 import { signInWithPopup, signOut } from "firebase/auth";
+import {useAuth} from '../auth/AuthUserProvider.tsx';
+// import {db} from '../../../server/firebase.ts'
+import {getDocs, query, where, collection, getFirestore, doc, getDoc, setDoc} from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey:  import.meta.env.VITE_FIREBASE_API_KEY,
@@ -28,8 +31,32 @@ const createComponentWithAuth = withFirebaseAuth({
   firebaseAppAuth: auth,
 });
 
-const signInWithGoogle = () => {
-  signInWithPopup(auth, providers.googleProvider);
+const db = getFirestore(app);
+
+const signInWithGoogle = async () => {
+  try {
+    const result = await signInWithPopup(auth, providers.googleProvider);
+    const user = result.user;
+
+    if (user) {
+      const userDocRef = doc(db, 'users', user.uid);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (!userDocSnap.exists()) {
+        await setDoc(userDocRef, {
+          uid: user.uid,
+          displayName: user.displayName,
+          email: user.email,
+          savedRecipes: []
+        });
+        console.log("New user document created");
+      } else {
+        console.log("Existing user document found");
+      }
+    }
+  } catch (error) {
+    console.error("Error during sign-in or Firestore operation:", error);
+  }
 };
 
 const signOutFirebase = () => {
@@ -43,4 +70,4 @@ const signOutFirebase = () => {
 };
 
 
-export {auth, providers, signInWithGoogle, signOutFirebase}
+export {auth, providers, signInWithGoogle, signOutFirebase, app}

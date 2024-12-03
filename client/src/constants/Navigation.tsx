@@ -1,6 +1,7 @@
 
 import HomePage from "../pages/Home";
 import RecipeDetails from "../pages/RemakePage";
+import SavedRecipesPage from "../pages/SavedRecipesPage";
 import AddRecipePage from "./AddRecipePage";
 
 export const PATHS: {
@@ -22,5 +23,10 @@ export const PATHS: {
         link:"/add-recipe-page",
         label:"Add",
         element: <AddRecipePage/>
+    },
+    {
+        link:"/saved-recipes",
+        label:"Saved",
+        element: <SavedRecipesPage/>
     },
 ];

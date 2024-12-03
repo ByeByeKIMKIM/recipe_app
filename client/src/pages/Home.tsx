@@ -31,12 +31,17 @@ function HomePage() {
     navigate('/add-recipe-page');  
   }
 
+  const savedReroute = async() => {
+    navigate('/saved-recipes')
+  }
+
   return (
     <div className="App">
       <button onClick={signInWithGoogle}>Sign In</button>
       <button onClick={signOutFirebase}>Sign Out</button>
       <button onClick={addReroute}>Add</button>
       <h1>{user ? `Welcome, ${user.displayName}` : "Sign in"}</h1>
+      <button onClick={savedReroute}>saved</button>
       <RecipeList recipes={recipes} />
     </div>
   );
