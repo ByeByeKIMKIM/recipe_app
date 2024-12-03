@@ -32,6 +32,10 @@ function HomePage() {
   }
 
   const savedReroute = async() => {
+    if(!user) {
+      alert("Please sign in")
+      return
+    }
     navigate('/saved-recipes')
   }
 
