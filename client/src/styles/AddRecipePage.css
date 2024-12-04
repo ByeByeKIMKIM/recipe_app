@@ -1,4 +1,4 @@
-.add-recipe-container {
+/* .add-recipe-container {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
@@ -49,4 +49,92 @@ textarea {
 
 .submit-button:hover {
     background-color: #45a049;
+} */
+
+
+body {
+    background-color: #3cd236;
+    color: #f0f0f0;
+}
+
+.add-recipe-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #2a2a2a;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.add-recipe-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+    color: #d0d0d0;
+    font-size: 1.1em;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #444;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #3a3a3a;
+    color: #f0f0f0;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
+}
+
+textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.submit-button {
+    background: linear-gradient(45deg, #ff6b6b, #feca57);
+    color: white;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 10px;
+}
+
+.submit-button:hover {
+    background: linear-gradient(45deg, #ff5252, #fdb827);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.submit-button:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .add-recipe-container {
+        margin: 20px;
+        padding: 20px;
+    }
 }

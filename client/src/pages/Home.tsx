@@ -4,6 +4,7 @@ import axios from 'axios';
 import {signInWithGoogle, signOutFirebase} from '../utils/firebase'
 import { useAuth } from '../auth/AuthUserProvider.tsx';
 import { useNavigate } from 'react-router-dom';
+import '../styles/HomePage.css'
 
 function HomePage() {
   const navigate = useNavigate()
@@ -43,8 +44,8 @@ function HomePage() {
     <div className="App">
       <button onClick={signInWithGoogle}>Sign In</button>
       <button onClick={signOutFirebase}>Sign Out</button>
-      <button onClick={addReroute}>Add</button>
       <h1>{user ? `Welcome, ${user.displayName}` : "Sign in"}</h1>
+      <button onClick={addReroute}>Add</button>
       <button onClick={savedReroute}>saved</button>
       <RecipeList recipes={recipes} />
     </div>

@@ -1,16 +1,55 @@
 .recipe {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 16px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.recipe:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
 }
 
 .recipe h2 {
     margin-top: 0;
-    color: #d8d8d8;
+    margin-bottom: 16px;
+    color: #f0f0f0;
+    font-size: 1.8em;
+    font-weight: 600;
+    border-bottom: 2px solid #444;
+    padding-bottom: 8px;
 }
 
 .recipe p {
-    color: #b8b8b8;
+    color: #d0d0d0;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.recipe button {
+    background-color: #3a3a3a;
+    color: #f0f0f0;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    margin-right: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.recipe button:hover {
+    background-color: #4a4a4a;
+}
+
+.recipe button.gradient-button {
+    background: linear-gradient(45deg, #ff6b6b, #feca57);
+    color: #fff;
+    font-weight: bold;
+}
+
+.recipe button.gradient-button:hover {
+    background: linear-gradient(45deg, #ff5252, #fdb827);
 }
